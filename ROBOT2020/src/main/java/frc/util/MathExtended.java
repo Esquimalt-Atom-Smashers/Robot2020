@@ -21,4 +21,6 @@ public interface MathExtended
     {
         return Math.pow(sec(theta), 2);
     }
+
+    
 }
