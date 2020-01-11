@@ -8,6 +8,7 @@
 package frc.robot;
 
 import java.io.IOException;
+import java.nio.ByteOrder;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -35,11 +36,14 @@ public class Robot extends TimedRobot {
       e1.printStackTrace();
     }
     try {
-      server.acceptConnection(5000, true);
+      server.acceptConnection(50000, true);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+
+    RobotMap.addProperty("test", "testyStringThing");
+    RobotMap.addProperty("number", 3.0);
     
   }
 
@@ -52,11 +56,19 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopInit() {
+  public void teleopInit() 
+  {
   }
 
   @Override
-  public void teleopPeriodic() {
+  public void teleopPeriodic() 
+  {
+    try {
+      server.checkForRequests();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @Override

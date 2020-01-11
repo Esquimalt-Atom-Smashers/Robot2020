@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /*
     As per game manual: -> ports UDP/TCP 5800-5810: Team Use, bi-directional
@@ -25,8 +26,8 @@ public class RobotServer
     public RobotServer() throws IOException
     {
         server = new ServerSocket(5800); //use port 5800
-        outBuffer = new byte[1000000]; //1MB
-        buffer = new byte[1000000];
+        outBuffer = new byte[100000]; //100kb
+        buffer = new byte[100000];
     }
 
     public void acceptConnection(int timeoutMillis, boolean newThread) throws IOException
@@ -63,7 +64,7 @@ public class RobotServer
     public void checkForRequests() throws IOException
     {
         InputStream stream = null;
-
+        if (connection == null) return;
          stream = connection.getInputStream();    
         
         if (stream == null) return;
@@ -71,23 +72,24 @@ public class RobotServer
         int bufPointer = 0;
         int reqID = 0;
         String[] reqs = null;
-
         if (stream.available() > 0)
         {
             try
             {
                 int avail = stream.read(buffer); //returns size of incoming request
-                reqID = ByteBuffer.allocate(INT_SIZE).put(buffer, 0, INT_SIZE).getInt();
+                reqID = ByteBuffer.wrap(buffer, 0, INT_SIZE).getInt(0);
+                System.out.println(reqID);
                 bufPointer += INT_SIZE;
                 avail -= INT_SIZE;
-                int numProperties = ByteBuffer.allocate(INT_SIZE).put(buffer, 0, INT_SIZE).getInt();
+                int numProperties = ByteBuffer.wrap(buffer, bufPointer, INT_SIZE).getInt(INT_SIZE);
                 bufPointer += INT_SIZE;
                 avail -= INT_SIZE;
                 reqs = new String[numProperties];
 
                 for (int index = 0; avail > 0; index ++)
                 {
-                    int size = ByteBuffer.allocate(4).put(buffer, bufPointer, 4).getInt();
+                    int size = ByteBuffer.wrap(buffer, bufPointer, INT_SIZE).getInt(bufPointer);
+                    System.out.println(size);
                     avail -= INT_SIZE;
                     bufPointer += INT_SIZE;
                     byte[] stringBytes = new byte[size];
@@ -99,7 +101,7 @@ public class RobotServer
                 }
 
             }
-            catch (IOException e) {e.printStackTrace();}
+            catch (Exception e) {e.printStackTrace();}
             
             parseRequest(reqs, reqID);
         }
@@ -110,6 +112,9 @@ public class RobotServer
     {
         if (req == null) return;
         int lastWrittenIndex = 0;
+        byte[] reqBytes = ByteBuffer.allocate(4).putInt(lastWrittenIndex).array();
+        System.arraycopy(reqBytes, 0, outBuffer, 0, INT_SIZE);
+        lastWrittenIndex += INT_SIZE;
         ByteArrayOutputStream bos = null;
         ObjectOutputStream out = null;
         for (int index = 0; index < req.length; index++)
@@ -130,7 +135,7 @@ public class RobotServer
                 int size = temp.length;
                 byte[] sizeArr = ByteBuffer.allocate(4).putInt(size).array();
                 System.arraycopy(sizeArr, 0, outBuffer, lastWrittenIndex, 4);
-                lastWrittenIndex += 4;
+                lastWrittenIndex += INT_SIZE;
                 System.arraycopy(temp, 0, outBuffer, lastWrittenIndex, temp.length);
                 lastWrittenIndex += temp.length;
             }
