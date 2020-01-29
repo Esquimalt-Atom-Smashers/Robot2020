@@ -39,7 +39,7 @@ public class PID
         this.target = target;
     }
 
-    public double getPositition()
+    public double getPosition()
     {
         return 0;
     }
@@ -51,12 +51,12 @@ public class PID
     
     public double calculate()
     {
-        double positionChange = getPositition() - position;
-        position = getPositition();
+        double positionChange = getPosition() - position;
+        position = getPosition();
         long time = System.currentTimeMillis();
-        double detla = (lastCallTime - time)/1d;
+        double delta = (lastCallTime - time)/1d;
         lastCallTime = time;
-        double derivative = positionChange/detla;
+        double derivative = positionChange/delta;
         
         double error =  target - position;
 
@@ -71,7 +71,9 @@ public class PID
         else integral = 0;
 
         power += error * kP;
-        pwoer += derivative * kI;
+        power += derivative * kI;
+
+        return power;
     }
 
 
