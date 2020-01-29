@@ -28,9 +28,9 @@ public interface MathExtended
 
         if (Math.pow(b,2) + 4*a*c < 0) return null; //check for negative discrimant
 
-        solutions[0] = (-b+Math.sqrt(Math.pow(b, 2) + 4*a*c))/2*a;
+        solutions[0] = (-b+Math.sqrt(Math.pow(b, 2) + 4*a*c))/(2*a);
 
-        solutions[1] = (-b-Math.sqrt(Math.pow(b, 2) + 4*a*c))/2*a;
+        solutions[1] = (-b-Math.sqrt(Math.pow(b, 2) + 4*a*c))/(2*a);
 
         return solutions;
     }
