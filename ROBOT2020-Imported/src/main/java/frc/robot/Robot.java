@@ -9,7 +9,8 @@ package frc.robot;
 
 import java.io.IOException;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Spark;
@@ -34,17 +35,18 @@ public class Robot extends TimedRobot {
   private RobotServer server;
   private DifferentialDrive drive;
   private XboxController xcontroller;
-  WPI_VictorSPX testadoo;
-
-  WPI_VictorSPX testaboo;
+  private WPI_TalonSRX gantry;
+  private WPI_TalonSRX claw;
  
   @Override
   public void robotInit() {
     
+
+    gantry = new WPI_TalonSRX(1);
+    claw = new WPI_TalonSRX(0);
     
-    testadoo = new WPI_VictorSPX(1);
-    testaboo = new WPI_VictorSPX(2);
     xcontroller = new XboxController(3);
+    drive = new DifferentialDrive(new Spark(0), new Spark(1));
     
 
   }
@@ -65,9 +67,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() 
   {
-  
-    testadoo.set(xcontroller.getRawAxis(1));
-    testaboo.set(xcontroller.getRawAxis(1));
+    
+    double fwdpower = xcontroller.getRawAxis(1);
+    double turnpower = xcontroller.getRawAxis(2);
+    //drive.arcadeDrive(-fwdpower, turnpower);
+    double gantryPower = xcontroller.getRawAxis(1);
+    double clawPower = xcontroller.getRawAxis(3);
+    gantry.set(gantryPower);
+    claw.set(clawPower * 0.3);
+
   }
 
   @Override
