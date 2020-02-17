@@ -12,9 +12,13 @@ import java.io.IOException;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.subsystem.CLP;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Talon;
 
 
@@ -31,19 +35,30 @@ public class Robot extends TimedRobot {
    * for any initialization code.
    */
 
+
   private RobotServer server;
   private DifferentialDrive drive;
   private XboxController xcontroller;
-  WPI_VictorSPX testadoo;
+  private CLP clp;
+  private Compressor compressor;
+  private DoubleSolenoid solenoid;
 
-  WPI_VictorSPX testaboo;
+  private double ledmin = 0.2;
+  private double fadeTime = 3000;
+  private double ledpower = ledmin;
+  private double ledmax = 1;
+  private double ledincrease = (ledmax - ledmin)/fadeTime/0.02;
+  private double ledDirection = 1;
+
+  private Spark test;
  
   @Override
   public void robotInit() {
     
-    
-    testadoo = new WPI_VictorSPX(1);
-    testaboo = new WPI_VictorSPX(2);
+   
+    //compressor = new Compressor(0);
+    //clp = new CLP(testadoo, testaboo);
+    test = new Spark(0);
     xcontroller = new XboxController(3);
     
 
@@ -65,9 +80,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() 
   {
-  
-    testadoo.set(xcontroller.getRawAxis(1));
-    testaboo.set(xcontroller.getRawAxis(1));
+    //testaboo.set(xcontroller.getRawAxis(1));
+
+    ledpower += ledincrease * ledDirection;
+    if (ledpower > ledmax) ledDirection = -1;
+    else if (ledpower < ledmin) ledDirection = 1;
+
+    test.set(Math.max(0,ledpower));
+
+    
   }
 
   @Override

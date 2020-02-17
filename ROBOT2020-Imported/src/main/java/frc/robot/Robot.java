@@ -32,11 +32,13 @@ public class Robot extends TimedRobot {
    * for any initialization code.
    */
 
+   
   private RobotServer server;
   private DifferentialDrive drive;
   private XboxController xcontroller;
   private WPI_TalonSRX gantry;
   private WPI_TalonSRX claw;
+  private Spark shoot;
  
   @Override
   public void robotInit() {
@@ -46,7 +48,8 @@ public class Robot extends TimedRobot {
     claw = new WPI_TalonSRX(0);
     
     xcontroller = new XboxController(3);
-    drive = new DifferentialDrive(new Spark(0), new Spark(1));
+    //drive = new DifferentialDrive(new Spark(0), new Spark(1));
+    shoot = new Spark(1);
     
 
   }
@@ -68,13 +71,15 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() 
   {
     
-    double fwdpower = xcontroller.getRawAxis(1);
-    double turnpower = xcontroller.getRawAxis(2);
-    //drive.arcadeDrive(-fwdpower, turnpower);
-    double gantryPower = xcontroller.getRawAxis(1);
-    double clawPower = xcontroller.getRawAxis(3);
-    gantry.set(gantryPower);
-    claw.set(clawPower * 0.3);
+    //double fwdpower = xcontroller.getRawAxis(1);
+    //double turnpower = xcontroller.getRawAxis(0);
+    //drive.arcadeDrive(-fwdpower * 0.8, turnpower * 0.8);
+    //double gantryPower = xcontroller.getRawAxis(1);
+    //double clawPower = xcontroller.getRawAxis(2);
+    //gantry.set(gantryPower);
+    //claw.set(clawPower);
+    double shot = xcontroller.getRawAxis(1);
+    shoot.set(shot);
 
   }
 
