@@ -1,28 +1,28 @@
 package frc.util;
 
-public interface MathExtended
+public class MathExtended
 {
-    public default double sec(double theta)
+    public static double sec(double theta)
     {
         return 1/Math.cos(theta);
     }
 
-    public default double csc(double theta)
+    public static double csc(double theta)
     {
         return 1/Math.sin(theta);
     }
 
-    public default double cot(double theta)
+    public static double cot(double theta)
     {
         return 1/Math.tan(theta);
     }
 
-    public default double sec2(double theta)
+    public static double sec2(double theta)
     {
         return Math.pow(sec(theta), 2);
     }
 
-    public default double[] polysolve2ndDeg(double a, double b, double c)
+    public static double[] polysolve2ndDeg(double a, double b, double c)
     {
         double[] solutions = new double[2];
 
