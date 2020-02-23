@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.Talon;
 
 
 /**
@@ -48,10 +47,8 @@ public class Robot extends TimedRobot {
   private Compressor compressor;
   private DoubleSolenoid solenoid;
   private ColorSensorV3 colorsensor;
-  private I2C.Port i2cPort;
   private SmartDashboard sDashboard;
   private WPI_TalonSRX talon;
-  
 
   private double ledmin = 0.2;
   private double fadeTime = 3000;
@@ -59,7 +56,7 @@ public class Robot extends TimedRobot {
   private double ledmax = 1;
   private double ledincrease = (ledmax - ledmin)/fadeTime/0.02;
   private double ledDirection = 1;
-
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private Spark test;
  
   @Override
