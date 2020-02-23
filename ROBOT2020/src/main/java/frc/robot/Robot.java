@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.Joystick;
 
 
 /**
@@ -39,7 +40,7 @@ public class Robot extends TimedRobot {
    * for any initialization code.
    */
 
-
+  
   private RobotServer server;
   private DifferentialDrive drive;
   private XboxController xcontroller;
@@ -49,7 +50,7 @@ public class Robot extends TimedRobot {
   private ColorSensorV3 colorsensor;
   private SmartDashboard sDashboard;
   private WPI_TalonSRX talon;
-
+  private Joystick stick;
   private double ledmin = 0.2;
   private double fadeTime = 3000;
   private double ledpower = ledmin;
@@ -65,11 +66,18 @@ public class Robot extends TimedRobot {
    
     //compressor = new Compressor(0);
     //clp = new CLP(testadoo, testaboo);
-    test = new Spark(0);
+    //test = new Spark(0);
     xcontroller = new XboxController(3);
-    colorsensor = new ColorSensorV3(i2cPort);
+    //colorsensor = new ColorSensorV3(i2cPort);
     talon = new WPI_TalonSRX(0);
-    
+    try {
+      drive = new DifferentialDrive(new Spark(0), new Spark(1)); // the base and wheels
+      stick = new Joystick(3); // controls spike
+      drive.setInverted(true);
+    } catch (Exception e) {
+      System.out.println("Error communicating with drive, joystick not available");
+    }
+   
 
   }
 
@@ -95,21 +103,24 @@ public class Robot extends TimedRobot {
     if (ledpower > ledmax) ledDirection = -1;
     else if (ledpower < ledmin) ledDirection = 1;
 
-    test.set(Math.max(0,ledpower));
+    //test.set(Math.max(0,ledpower));
 
     double tal = xcontroller.getRawAxis(1);
-    talon.set(tal);
+    //talon.set(tal);
 
-    Color detectedColor = colorsensor.getColor();
+    //Color detectedColor = colorsensor.getColor();
   
 
 
-    double IR = colorsensor.getIR(); 
+    //double IR = colorsensor.getIR(); 
 
-    int proximity = colorsensor.getProximity();
+    //int proximity = colorsensor.getProximity();
     
-    System.out.println(detectedColor);
-    SmartDashboard.putNumber("Proximity", proximity);
+    //System.out.println(detectedColor);
+    //SmartDashboard.putNumber("Proximity", proximity);
+    try {
+        drive.arcadeDrive(xcontroller.getRawAxis(1), xcontroller.getRawAxis(2)); // move around
+    } catch (Exception e) {}
     
   }
 
