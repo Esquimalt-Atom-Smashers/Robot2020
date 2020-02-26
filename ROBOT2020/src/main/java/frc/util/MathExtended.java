@@ -22,11 +22,7 @@ public class MathExtended
         return Math.pow(sec(theta), 2);
     }
 
-<<<<<<< HEAD
-    public default double[] polysolve2ndDeg(double a, double b, double c) //quadtric formula, returns null if no solution
-=======
     public static double[] polysolve2ndDeg(double a, double b, double c)
->>>>>>> ca41fb01870e1b6a26ebfe9e98d64072491fa72d
     {
         double[] solutions = new double[2];
 
