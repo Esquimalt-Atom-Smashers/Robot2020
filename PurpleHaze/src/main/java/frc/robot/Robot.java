@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
     try {
       drive = new DifferentialDrive(new Spark(0), new Spark(1)); // the base and wheels
       stick = new Joystick(3); // controls spike
-      drive.setInverted(true);
+      //drive.setInverted(true);
     } catch (Exception e) {
       System.out.println("Error communicating with drive, joystick not available");
     }
