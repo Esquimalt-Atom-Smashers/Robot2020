@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.subsystem.CLP;
+import frc.subsystem.ButtonPanel;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
@@ -59,7 +60,8 @@ public class Robot extends TimedRobot {
   private double ledDirection = 1;
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private Spark test;
- 
+  private ButtonPanel panel;
+
   @Override
   public void robotInit() {
     
@@ -72,13 +74,17 @@ public class Robot extends TimedRobot {
     talon = new WPI_TalonSRX(0);
     try {
       drive = new DifferentialDrive(new Spark(0), new Spark(1)); // the base and wheels
-      stick = new Joystick(3); // controls spike
+      stick = new Joystick(3); //Check driver station usb settings for port number
       //drive.setInverted(true);
     } catch (Exception e) {
       System.out.println("Error communicating with drive, joystick not available");
     }
    
-
+    try {
+      panel = new ButtonPanel(9, 2); //Check driver station usb settings for port number
+    } catch (Exception e) {
+      System.out.println("Error communicating with button panel, unable to initialize ButtonPanel");
+    }
   }
 
   @Override
@@ -97,7 +103,34 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() 
   {
+    panel.update();
     //testaboo.set(xcontroller.getRawAxis(1));
+
+    // React to 'shoot' button press
+    if (panel.wasPressed(ButtonPanel.CENTER_LEFT)) {
+      System.out.println("Ball shot");
+    } 
+    // React to 'shoot mode' button down
+    if (panel.isDown(ButtonPanel.LEFT_TOP)) {
+      System.out.println("Shoot mode on");
+    }
+    // React to 'shoot mode' button up
+    if (panel.wasReleased(ButtonPanel.LEFT_TOP)) {
+      System.out.println("Shoot mode off");
+    }
+    // React to 'collection mode' toggle
+    if (panel.wasPressed(ButtonPanel.LEFT_MIDDLE)) {
+      System.out.println("Collection mode toggled");
+    }
+    // React to 'shooter angle up' button press
+    if (panel.wasPressed(ButtonPanel.RIGHT_TOP)) {
+      System.out.println("Shooter angle up");
+    }
+    // React to 'shooter angle down' button press
+    if (panel.wasPressed(ButtonPanel.RIGHT_MIDDLE)) {
+      System.out.println("Shooter angle down");
+    }
+
 
     ledpower += ledincrease * ledDirection;
     if (ledpower > ledmax) ledDirection = -1;
