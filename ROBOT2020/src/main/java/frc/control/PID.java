@@ -20,12 +20,14 @@ public class PID
     protected double lastPower;
 
 
+    protected double positionTolerance;
+
     protected double integral;
     protected double integralLimit;
     protected double integralFunctionalRange; //+-
 
     protected double target;
-    protected double position;
+    protected double lastPosition;
     protected long lastCallTime;
 
      
@@ -35,6 +37,11 @@ public class PID
     protected double kD;
 
     
+
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 
     public PID(double kI, double kP, double kD, double integralFunctionalRange, double integralLimit)
     {
@@ -46,6 +53,16 @@ public class PID
         this.integralFunctionalRange = integralFunctionalRange;
         this.integralLimit = integralLimit;
 
+    }
+
+    public void setTolerance(double tolerance)
+    {
+        this.positionTolerance = tolerance;
+    }
+
+    public boolean reachedPosition()
+    {
+        return target - lastPosition < positionTolerance;
     }
 
     public void setMaxPowerChangePerTick(double max)
@@ -90,6 +107,11 @@ public class PID
    }
 
 
+    public void setMaxRate(double maxRate)
+    {
+        this.maxRate = maxRate;
+    }
+
     public double getPosition()
     {
         return 0;
@@ -97,13 +119,28 @@ public class PID
 
     public double update()
     {
-        return calculate();
+        return calculate(getPosition());
+    }
+
+    public void resetPowerOutput()
+    {
+        lastPower = 0;
+    }
+
+    public double getLastPower()
+    {
+        return lastPower;
+    }
+
+    public void setLastPower(double lastPower)
+    {
+        this.lastPower = lastPower;
     }
     
-    public double calculate()
+    public double calculate(double position)
     {
-        double positionChange = getPosition() - position;
-        position = getPosition();
+        double positionChange = lastPosition- position;
+        lastPosition = getPosition();
         long time = System.currentTimeMillis();
         double delta = (lastCallTime - time)/1d;
         derivative = positionChange/delta;
