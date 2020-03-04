@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
    
     //compressor = new Compressor(0);
     //clp = new CLP(testadoo, testaboo);
+    clp = new CLP();
     //test = new Spark(0);
     xcontroller = new XboxController(3);
     //colorsensor = new ColorSensorV3(i2cPort);
@@ -108,18 +109,32 @@ public class Robot extends TimedRobot {
 
     // React to 'shoot' button press
     if (panel.wasPressed(ButtonPanel.CENTER_LEFT)) {
-      System.out.println("Ball shot");
+      if (clp.getShootMode() == true) {
+        clp.shoot();
+      }
     } 
     // React to 'shoot mode' button down
     if (panel.isDown(ButtonPanel.LEFT_TOP)) {
-      System.out.println("Shoot mode on");
+      if (clp.getShootMode() == false) {
+        clp.setShootMode(true);
+        System.out.println("Shoot mode on");
+      }
+      
     }
     // React to 'shoot mode' button up
     if (panel.wasReleased(ButtonPanel.LEFT_TOP)) {
-      System.out.println("Shoot mode off");
+      if (clp.getShootMode() == true) {
+        clp.setShootMode(false);
+        System.out.println("Shoot mode off");
+      }
     }
     // React to 'collection mode' toggle
     if (panel.wasPressed(ButtonPanel.LEFT_MIDDLE)) {
+      if (clp.getCollectionMode() == true) {
+        clp.setCollectionMode(false);
+      } else {
+        clp.setCollectionMode(true);
+      }
       System.out.println("Collection mode toggled");
     }
     // React to 'shooter angle up' button press
