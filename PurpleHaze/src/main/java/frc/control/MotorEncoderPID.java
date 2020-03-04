@@ -8,7 +8,7 @@ public class MotorEncoderPID extends PID
 
     public MotorEncoderPID(double kI, double kP, double kD, double integralLimit, double integralFunctionRange, Encoder encoder)
     {
-        super(kI,kP,kD,integralFunctionRange,integralLimit);
+        super(kI,kP,kD,integralFunctionRange,integralLimit, 0);
         this.encoder = encoder;
     }
 

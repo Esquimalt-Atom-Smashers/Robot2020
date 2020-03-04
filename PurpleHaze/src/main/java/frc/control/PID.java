@@ -3,6 +3,8 @@ package frc.control;
 import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.hal.sim.mockdata.DriverStationDataJNI;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.util.Range;
+
 
 public class PID
 {
@@ -13,7 +15,7 @@ public class PID
     protected double kRateP;
     protected double kRateI;
     protected double kRateD;
-
+    protected Range controllerOutputRange;
     protected boolean doRateLimit = false;
 
     protected double maxPowerChangePerTick;
@@ -23,6 +25,7 @@ public class PID
     protected double positionTolerance;
 
     protected double integral;
+    protected double integralPowerLimit;
     protected double integralLimit;
     protected double integralFunctionalRange; //+-
 
@@ -43,7 +46,7 @@ public class PID
         return super.clone();
     }
 
-    public PID(double kI, double kP, double kD, double integralFunctionalRange, double integralLimit)
+    public PID(double kI, double kP, double kD, double integralFunctionalRange, double integralPowerLimit, double integralLimit)
     {
         this.kP = kP;
         this.kI = kI;
@@ -51,8 +54,8 @@ public class PID
         this.derivative = 0;
         this.integral = 0;
         this.integralFunctionalRange = integralFunctionalRange;
+        this.integralPowerLimit = integralPowerLimit;
         this.integralLimit = integralLimit;
-
     }
 
     public void setTolerance(double tolerance)
@@ -106,6 +109,10 @@ public class PID
 
    }
 
+    public void setOutputRange(Range range)
+    {
+        this.controllerOutputRange = range;
+    }
 
     public void setMaxRate(double maxRate)
     {
@@ -153,8 +160,12 @@ public class PID
         if (Math.abs(error) < integralFunctionalRange)
         {
             integral += error * delta;
+            if (Math.abs(integral) > integralLimit)
+            {
+                integral = Math.signum(integral) * integralLimit;
+            }
             double integralPower = integral * kI;
-            power += (Math.abs(integralPower) > integralLimit)? Math.signum(integralPower) * integralLimit : integralPower;
+            power += (Math.abs(integralPower) > integralPowerLimit)? Math.signum(integralPower) *  integralPowerLimit: integralPower;
         }
         else integral = 0;
 
@@ -169,6 +180,12 @@ public class PID
             power = lastPower + (maxPowerChangePerTick * Math.signum(deltaPower));
         }
 
+        if (controllerOutputRange != null)
+        {
+            if (controllerOutputRange.contains(power)) return power;
+            else if (power < controllerOutputRange.getMin()) return controllerOutputRange.getMin();
+            else return controllerOutputRange.getMax();
+        }
         return power;
     }
 

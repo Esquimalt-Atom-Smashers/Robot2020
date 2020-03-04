@@ -27,6 +27,7 @@ public class DriveBase implements RobotSystem
     private double wheelCircumference = 0.1524;
     private double wheelRevolutionsPerFullRotation = robotCircumference/(wheelCircumference);
     private double encoderPlusesPerRevolution = 8192;
+    private double turningCoefficient = 0.8;
     private double encoderPlusesPerFullRevolution = wheelRevolutionsPerFullRotation * 8192;
 
     private boolean hasAutoCommand;
@@ -49,7 +50,7 @@ public class DriveBase implements RobotSystem
         this.driveCommandQueue = new LinkedList<AutoDriveCommand>();
 
 
-        velControllerRight = new PID(0.1, 0.2, 0.3, Double.MAX_VALUE, 1);
+        velControllerRight = new PID(0.1, 0.2, 0.3, Double.MAX_VALUE, 1, 1000);
         velControllerRight.initRateLimiting(0.1, 0.2, 0.3, 1000, true); //rateLimiting will limit speed or if set to a high Limit may act as traction control (maybe probably not)
         velControllerRight.setMaxPowerChangePerTick(0.1); //set max speed controller output change per tick
     
@@ -95,9 +96,17 @@ public class DriveBase implements RobotSystem
         {
             velControllerLeft.setLastPower(lastPowerLeft);
             velControllerRight.setLastPower(lastPowerRight);
+            
 
-            velControllerLeft.setTarget(controller.getRawAxis(1));
-            velControllerRight.setTarget(controller.getRawAxis(1));
+            double fwdPower = controller.getRawAxis(1);
+            double turnPower = controller.getRawAxis(3);
+
+            double lPower = fwdPower + (turnPower * turningCoefficient);
+            double rPower = fwdPower - (turnPower * turningCoefficient);
+            
+
+            velControllerLeft.setTarget(lPower);
+            velControllerRight.setTarget(rPower);
 
             lastPowerLeft = velControllerLeft.getLastPower();
             lastPowerRight = velControllerRight.getLastPower();
