@@ -2,6 +2,7 @@ package frc.subsystem;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.util.MathExtended;
@@ -16,6 +17,13 @@ public class CLP
     public boolean shootMode = false;
     public boolean collectionMode = false;
 
+    private boolean[] switchStates;
+    private DigitalInput[] switches;
+    private WPI_VictorSPX[] collectors;
+    private WPI_VictorSPX shooter1;
+    private WPI_VictorSPX shooter2;
+
+
     //dx is the distance to the target, dh is the change in height
     //there is two soultions for the angle, however the smaller one should be used
     //the angle is returned in radians
@@ -27,12 +35,56 @@ public class CLP
         //shooter = new SpeedControllerGroup(motor1, motor2);
         collector = new Collector();
         launcher = new Launcher();
+        collectors = new WPI_VictorSPX[4];
+        switchStates = new boolean[4];
+        switchStates[3] = true;
+
+        shooter1 = new WPI_VictorSPX(1);
+        shooter1 = new WPI_VictorSPX(2);
+        collectors[0] = new WPI_VictorSPX(1);
+        collectors[1] = new WPI_VictorSPX(2);
+        collectors[2] = new WPI_VictorSPX(3);
+        switches[0] = new DigitalInput(1);
+        switches[1] = new DigitalInput(2);
+        switches[2] = new DigitalInput(3);
+
     }
 
 
-    public void update(XboxController test)
+    public void update()
     {
-        shooter.set(test.getRawAxis(1));
+
+        for (int index = 0; index < switches.length; index ++)
+        {
+            switchStates[index] = switches[index].get();
+        }
+
+        if (collectionMode)
+        {
+            for (int index = 0; index < switchStates.length - 1; index++)
+            {
+                if (switchStates[index])
+                {
+                    if (switchStates[index + 1])
+                    {
+                        collectors[index].set(0);
+                    }
+                    else
+                    {
+                        collectors[index].set(1);
+                    }
+                }
+                else
+                {
+                    collectors[index].set(1);
+                }
+            }
+        }
+
+        if (shootMode)
+        {
+
+        }
     }
     
     public void shoot() {
