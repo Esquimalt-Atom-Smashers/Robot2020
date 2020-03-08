@@ -13,8 +13,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.subsystem.CLP;
+import frc.subsystem.clp.CLP;
 import frc.subsystem.ButtonPanel;
+import frc.subsystem.MotorPowerUpdater;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
@@ -104,6 +105,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() 
   {
+    MotorPowerUpdater.getInstance().updateAll();
     panel.update();
     //testaboo.set(xcontroller.getRawAxis(1));
 

@@ -1,4 +1,4 @@
-package frc.subsystem;
+package frc.subsystem.clp;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -7,12 +7,24 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 
 // INCOMPLETE
-public class BallPostion extends Subsystem{
+public class BallPostion extends Subsystem 
+{
 
-    DigitalInput limitSwitch;
+    private DigitalInput limitSwitch;
+
 
     public BallPostion(int limitSwitchChannel){
         limitSwitch = new DigitalInput(limitSwitchChannel);
+    }
+
+    public boolean hasBall()
+    {
+        return limitSwitch.get();
+    }
+
+    public boolean advance()
+    {
+        return false;
     }
 
     @Override

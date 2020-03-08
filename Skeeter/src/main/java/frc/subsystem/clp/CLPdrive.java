@@ -1,4 +1,4 @@
-package frc.subsystem;
+package frc.subsystem.clp;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.control.PID;
 import frc.robot.Constants;
+import frc.subsystem.RobotSystem;
 import frc.util.Range;
 
 public class CLPdrive implements RobotSystem
@@ -34,7 +35,7 @@ public class CLPdrive implements RobotSystem
 
     public CLPdrive()
     {
-        driveMotor = new WPI_VictorSPX(Constants.CLP_DRIVE_VICTOR_CAN_ID);
+        driveMotor = new WPI_VictorSPX(Constants.CLP_DRIVE_VICTORSPX_CAN_ID);
         angleRange = new Range(0,Math.PI/4);
         angleController = new PID(0.1, 0.2, -0.3, 1, 0.4, 1000);
         angleController.setOutputRange(new Range(-0.6, 0.6));

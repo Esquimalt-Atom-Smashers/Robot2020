@@ -145,6 +145,11 @@ public class DriveBase implements RobotSystem
         this.doAutoDrive = false;
     }
 
+    public void enableAutoOperations()
+    {
+        doAutoDrive = true;
+    }
+
     private void applyNextCommand(AutoDriveCommand command)
     {
         double pluseR = 0;
