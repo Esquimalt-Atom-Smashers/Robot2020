@@ -27,9 +27,10 @@ public class ArduinoSensorBoard
         Lastly the (DeviceType) parameter is the "CAN_TYPE_MISCELLANEOUS" variable so its value is equal to 10  */
         board = new CAN(deviceID, CAN_TEAM_USE, CAN_TYPE_MISCELLANEOUS);
     }
-
+    //Creates a object from the class CANEncoder and names it newEncoder. This constructor has two parameters, int 'aChannel' & int 'bChannel'
     public CANEncoder newEncoder(int aChannel, int bChannel)
     {
+        //returns the value of the CANEncoder with 0 as its parameter value
         return new CANEncoder(0);
     }
 
