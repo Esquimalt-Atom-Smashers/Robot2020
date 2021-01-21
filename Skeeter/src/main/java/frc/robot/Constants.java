@@ -1,3 +1,4 @@
+//This line tells the compiler that Constants.java is part of the frc.robot package.
 package frc.robot;
 
 public class Constants
