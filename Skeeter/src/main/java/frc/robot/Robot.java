@@ -7,6 +7,17 @@
 
 package frc.robot;
 
+/*
+  _____                            _       
+ |_   _|                          | |      
+   | |  _ __ ___  _ __   ___  _ __| |_ ___ 
+   | | | '_ ` _ \| '_ \ / _ \| '__| __/ __|
+  _| |_| | | | | | |_) | (_) | |  | |_\__ \
+ |_____|_| |_| |_| .__/ \___/|_|   \__|___/
+                 | |                       
+                 |_|                       
+*/
+
 import java.io.IOException;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -36,6 +47,8 @@ import edu.wpi.first.wpilibj.Joystick;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
+
+//Creates class called Robot and it extends TimedRobot so it has access to all of TimedRobot's variables, methods.
 public class Robot extends TimedRobot {
   /**
    * This function is run when the robot is first started up and should be used
@@ -43,15 +56,33 @@ public class Robot extends TimedRobot {
    */
 
   
+  //A reference variable is just a variable which will be initialized into an object later on(a simpler and cleaner way to create objects) 
+  
+    //Creates a refrence variable called 'server' which refrences the RobotServer class
   private RobotServer server;
+    /*The DifferentialDrive class is a class specificaly used for driving differential drive / skid-steer driving. 
+    Differential drive is a two wheeled with independent actuators per wheels*/
+  
+    //Creates a refrence variable called 'drive' which refrences the DifferentialDrive class
   private DifferentialDrive drive;
+    /*The XboxController handles inputs from xbox 360 or xbox one controllers that are connected to the driver station.
+    We can use methods like 'getAButton()' to get the values of each of the buttons so we can link them up with specific methods ex: if (aButtonIsPressed == true) goForward()*/
+  
+    //Creates a refrence variable called 'xcontroller' which refrences the XboxController class
   private XboxController xcontroller;
+    //Creates a refrence variable called 'clp' which refrences the CLP class
   private CLP clp;
+    //Creates a refrence variable called 'compressor' which refrences the Compressor class
   private Compressor compressor;
+    //Creates a refrence variable called 'solenoid' which refrences the DoubleSolenoid class
   private DoubleSolenoid solenoid;
+    //Creates a refrence variable called 'colorsensor' which refrences the ColorSensorV3 class
   private ColorSensorV3 colorsensor;
+    //Creates a refrence variable called 'sDashboard' which refrences the SmartDashboard class
   private SmartDashboard sDashboard;
+    //Creates a refrence variable called 'talon' which refrences the WPI_TalonSRX class
   private WPI_TalonSRX talon;
+    //Creates a refrence variable called 'stick' which refrences the Joystick class
   private Joystick stick;
   private double ledmin = 0.2;
   private double fadeTime = 3000;
