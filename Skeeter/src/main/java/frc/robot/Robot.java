@@ -70,12 +70,25 @@ public class Robot extends TimedRobot {
   
     //Creates a refrence variable called 'xcontroller' which refrences the XboxController class
   private XboxController xcontroller;
+    /*The CLP class is actually a custom class made by the programmers, you can find it in java/frc/subsystems/CLP
+    The class is made to handle the shooting mechanism and launcher*/
+  
     //Creates a refrence variable called 'clp' which refrences the CLP class
   private CLP clp;
+    /*The Compressor class is used for operating a compressor connected to the PCM(Pneumatic Control Module)
+    Its important to note that the PCM already runs in a closed loop when a solenoid object is created meaning this class is only
+    required for a more detailed status of the Compressor*/
+  
     //Creates a refrence variable called 'compressor' which refrences the Compressor class
   private Compressor compressor;
+    /*Essentially the DoubleSolenoid class is used for running 2 channels of high voltage digital output on the PCM(Pneumatic Control Module)
+    This class is typically only used in situations where pneumatic solenoids that have 2 positions controlled by 2 different channels*/
+  
     //Creates a refrence variable called 'solenoid' which refrences the DoubleSolenoid class
   private DoubleSolenoid solenoid;
+    /*The ColorSensorV3 class is used to program the ColorSensorV3 component
+    The color sensor can be used to read and compare colors, it also has a built in proximity sensor(IR)*/
+  
     //Creates a refrence variable called 'colorsensor' which refrences the ColorSensorV3 class
   private ColorSensorV3 colorsensor;
     //Creates a refrence variable called 'sDashboard' which refrences the SmartDashboard class
