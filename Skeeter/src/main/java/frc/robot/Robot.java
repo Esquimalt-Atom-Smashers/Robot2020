@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
     //Creates a refrence variable called 'server' which refrences the RobotServer class
   private RobotServer server;
     /*The DifferentialDrive class is a class specificaly used for driving differential drive / skid-steer driving. 
-    Differential drive is a two wheeled with independent actuators per wheels*/
+    Differential drive is a two wheeled drive system with independent actuators per wheels*/
   
     //Creates a refrence variable called 'drive' which refrences the DifferentialDrive class
   private DifferentialDrive drive;
@@ -91,10 +91,19 @@ public class Robot extends TimedRobot {
   
     //Creates a refrence variable called 'colorsensor' which refrences the ColorSensorV3 class
   private ColorSensorV3 colorsensor;
+    /*The SmartDashboard is the bridge between the robot programs and the SmartDashboard which is on the laptop
+    We use this because we can input values here and the values would pop up on the SmartDashboard on the laptop*/
+  
     //Creates a refrence variable called 'sDashboard' which refrences the SmartDashboard class
   private SmartDashboard sDashboard;
+    /* COMPLETE IF YOU KNOW WHAT THIS DOES!!! */
+  
     //Creates a refrence variable called 'talon' which refrences the WPI_TalonSRX class
   private WPI_TalonSRX talon;
+    /*The Joystick class handles all the standerd Joysticks connected to the Driver station.
+    This class handles standard input that comes from the Driver Station. 
+    Each time a value is requested the most recent value is returned. */
+  
     //Creates a refrence variable called 'stick' which refrences the Joystick class
   private Joystick stick;
   private double ledmin = 0.2;
