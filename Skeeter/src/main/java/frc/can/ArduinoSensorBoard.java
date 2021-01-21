@@ -1,5 +1,5 @@
 package frc.can;
-
+//imports the class CAN so ArduinoSensorBoard has access to all CAN methods
 import edu.wpi.first.wpilibj.CAN;
 
 public class ArduinoSensorBoard
