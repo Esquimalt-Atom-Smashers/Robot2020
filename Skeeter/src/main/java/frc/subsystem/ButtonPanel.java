@@ -16,11 +16,14 @@ public class ButtonPanel
     public static final int RIGHT_BOTTOM = 3;
 
     private Joystick panel;
-    
+    //Creates an array of buttons, called 'buttons'
     private Button[] buttons;
 
+    //ButtonPanel is a method which has two parameters, numberOfButtons and port
     public ButtonPanel(int numberOfButtons, int port)
     {
+        /*Constructs a instance of the Joystick class and takes in the 'port' variable
+        which is used to tell what usb port its plugged into */
         this.panel = new Joystick(port);
         this.buttons = new Button[numberOfButtons];
 
