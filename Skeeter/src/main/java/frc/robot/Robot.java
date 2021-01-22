@@ -116,26 +116,38 @@ public class Robot extends TimedRobot {
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private Spark test;
   /*The ButtonPanel class is a subsystem located in the subsystem folder
-  */
+  The ButtonPanel class is a subsystem which allows us to use the purple box with the buttons in it to control the robot*/
   
   //Creates a refernnce variable called 'panel' which refrences the ButtonPanel class
   private ButtonPanel panel;
-
+  
+  //roboInit gets called once every time the robot gets booted up
   @Override
   public void robotInit() {
     
    
     //compressor = new Compressor(0);
     //clp = new CLP(testadoo, testaboo);
+    //initializes the refernce variable 'clp' and makes it an instance of the CLP class
     clp = new CLP();
     //test = new Spark(0);
+    
+    /*initializes the refernce variable 'xcontroller' and makes it an instance of the XboxController class
+    The '3' in the XboxController parameter is the usb port the xboxcontroller is plugged into*/
     xcontroller = new XboxController(3);
+    
     //colorsensor = new ColorSensorV3(i2cPort);
+    
+    /*initializes the refernce variable 'talon' and makes it an instance of the WPI_TalonSRX class
+    The '0' in the WPI_TalonSRX parameter is the device number of the TalonSRX Component*/
     talon = new WPI_TalonSRX(0);
+    
+    //The 'try' statment allows you to define a block of code and test it for errors as the code is being run
     try {
       drive = new DifferentialDrive(new Spark(0), new Spark(1)); // the base and wheels
       stick = new Joystick(3); //Check driver station usb settings for port number
       //drive.setInverted(true);
+      //The 'catch' statment allows you to define a block of code to be run, if an error apears in the 'try' statment
     } catch (Exception e) {
       System.out.println("Error communicating with drive, joystick not available");
     }
@@ -147,20 +159,25 @@ public class Robot extends TimedRobot {
     }
   }
 
+  
   @Override
+  //autonomusInit is ran once at the start of auto
   public void autonomousInit() {
   }
 
   @Override
+  //autonomusPeriodic runs in a loop during auto
   public void autonomousPeriodic() {
   }
 
   @Override
-  public void teleopInit() 
-  {
+  //teleopInit is ran once at the start of teleop
+  public void teleopInit() {
+  
   }
 
   @Override
+  //teleopPeriodic runs in a loop during teleop
   public void teleopPeriodic() 
   {
     MotorPowerUpdater.getInstance().updateAll();
