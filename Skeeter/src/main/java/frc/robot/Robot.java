@@ -96,7 +96,8 @@ public class Robot extends TimedRobot {
   
     //Creates a refrence variable called 'sDashboard' which refrences the SmartDashboard class
   private SmartDashboard sDashboard;
-    /* COMPLETE IF YOU KNOW WHAT THIS DOES!!! */
+    /* The WPI_Talon class allows us to refer to our motor controllers and TalonSRX's are what we use to control the motors
+    Keep in mind the WPI_TalonsSRX is an 3rd part library so we needed to download it seperatly*/
   
     //Creates a refrence variable called 'talon' which refrences the WPI_TalonSRX class
   private WPI_TalonSRX talon;
@@ -114,6 +115,10 @@ public class Robot extends TimedRobot {
   private double ledDirection = 1;
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private Spark test;
+  /*The ButtonPanel class is a subsystem located in the subsystem folder
+  */
+  
+  //Creates a refernnce variable called 'panel' which refrences the ButtonPanel class
   private ButtonPanel panel;
 
   @Override
