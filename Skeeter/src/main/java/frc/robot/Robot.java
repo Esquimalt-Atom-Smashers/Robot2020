@@ -181,6 +181,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() 
   {
     MotorPowerUpdater.getInstance().updateAll();
+    //panel.update() updates the current state of the buttons
     panel.update();
     //testaboo.set(xcontroller.getRawAxis(1));
 
@@ -250,10 +251,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+  //testInit is ran once at the start of test
   public void testInit() {
   }
 
   @Override
+  //testPeriodic runs in a loop during test
   public void testPeriodic() {
   }
 
