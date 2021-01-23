@@ -1,7 +1,8 @@
 package frc.control;
 
-import edu.wpi.first.hal.sim.DriverStationSim;
-import edu.wpi.first.hal.sim.mockdata.DriverStationDataJNI;
+// These packages don't exist. Can be deleted later.
+// import edu.wpi.first.hal.sim.DriverStationSim;
+// import edu.wpi.first.hal.sim.mockdata.DriverStationDataJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.util.Range;
 
