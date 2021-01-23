@@ -35,7 +35,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.ColorSensorV3;
+// This library doesn't exist and it's references are unnused. Can probably be deleted later.
+// import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -90,7 +91,8 @@ public class Robot extends TimedRobot {
     The color sensor can be used to read and compare colors, it also has a built in proximity sensor(IR)*/
   
     //Creates a refrence variable called 'colorsensor' which refrences the ColorSensorV3 class
-  private ColorSensorV3 colorsensor;
+// Commented out because it is never used besides a call to the default constructor and the library which the ColorSensor class is from is not required.
+//   private ColorSensorV3 colorsensor;
     /*The SmartDashboard is the bridge between the robot programs and the SmartDashboard which is on the laptop
     We use this because we can input values here and the values would pop up on the SmartDashboard on the laptop*/
   
